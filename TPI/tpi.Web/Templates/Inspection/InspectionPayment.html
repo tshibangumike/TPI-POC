@@ -1,0 +1,431 @@
+﻿<form ng-submit="ProcessForm(paymentForm)" name="paymentForm">
+    <div class="container-fluid m-3">
+        <div class="d-flex flex-column">
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-labeled btn-light btn-lg pull-left" ng-click="Back()" ng-disabled="VoucherAppliedSuccessfully">
+                            <span class="btn-label"><i class="fa fa-chevron-left"></i></span>
+                            Back to Shopping
+                        </button>
+                    </div>
+                    <div class="col-md-10">
+                        <h4 class="font-weight-bold pull-right">Shopping Cart Summary</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2" ng-if="Inspection.Id.length">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Selected Site Address</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#SiteAddress"
+                                aria-expanded="false"
+                                aria-controls="SiteAddress"
+                                ng-click="HideShow('SiteAddress')">
+                            <i class="fa fa-chevron-up" ng-show="Content.SiteAddress"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.SiteAddress"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row p-3 collapse" id="SiteAddress">
+                    <div class="col-md-12">
+                        <label>Site address:</label>
+                        <input type="text" class="form-control" value="{{ Inspection.Name }}" ng-disabled="true" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 m-1" ng-if="CurrentUser.Address.StreetAddress.length > 0">
+                            <button class="btn btn-labeled btn-info btn-sm pull-left" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <span class="btn-label"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                                More Details
+                            </button>
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body m-1">
+                                    <div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label>Street Number</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.StreetNumber }}" ng-disabled="true">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Street Address</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.StreetAddress }}" ng-disabled="true">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>Sub Locality</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.SubLocality }}" ng-disabled="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label>Suburb</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.Suburb }}" ng-disabled="true">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>City</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.City }}" ng-disabled="true">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label>State</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.Province }}" ng-disabled="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label>Country</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.Country }}" ng-disabled="true">
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                <label>Postal Code</label>
+                                                <input type="text" class="form-control" placeholder="{{ CurrentUser.Address.PostalCode }}" ng-disabled="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Cart Item(s)</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#Cart"
+                                aria-expanded="false"
+                                aria-controls="Cart"
+                                ng-click="HideShow('Cart')">
+                            <i class="fa fa-chevron-up" ng-show="Content.Cart"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.Cart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row p-3 collapse show" id="Cart">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead class="bg-light text-dark">
+                                <tr>
+                                    <td>Description</td>
+                                    <td>Price</td>
+                                    <td>Action</td>
+                                    <td>Undo</td>
+                                    <td>Status</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cartItem in CartItems">
+                                    <td>
+                                        {{ cartItem.ProductName }}
+                                    </td>
+                                    <td>
+                                        <h6 class="font-weight-bold">{{ cartItem.AmountText }}</h6>
+                                    <td>
+                                        <button type="button" class="btn btn-labeled btn-dark btn-lg btn-block" ng-click="Schedule(cartItem)" ng-disabled="DisableScheduleButton(cartItem)" ng-if="!cartItem.ProductCategory">
+                                            <span class="btn-label fa-pull-left"><i class="fa fa-calendar"></i></span>
+                                            Schedule
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-lg" ng-click="RemoveAppointment(cartItem)" ng-disabled="!DisableScheduleButton(cartItem)" ng-if="!cartItem.ProductCategory">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-success btn-lg" ng-if="!cartItem.ProductCategory && DisableScheduleButton(cartItem)">
+                                            <i class="fa fa-check-circle"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-dark btn-lg" ng-if="!cartItem.ProductCategory && !DisableScheduleButton(cartItem)">
+                                            <i class="fa fa-ellipsis-h"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Voucher Number
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" ng-model="VoucherNumber" ng-disabled="VoucherAppliedSuccessfully" />
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-labeled btn-dark btn-lg btn-block" ng-disabled="!VoucherNumber.length" ng-click="RedeemVoucher()">
+                                            <span class="btn-label"><i class="fa fa-chevron-circle-down"></i></span>
+                                            Redeem Voucher
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="font-weight-bold">Total</span>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><h5 class="font-weight-bold">{{ Cart.TotalAmountDisplayName }}</h5></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2" ng-if="UserCanCreateInspection && DisplayQuestions()">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Property Information</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#PropertyInformation"
+                                aria-expanded="false"
+                                aria-controls="PropertyInformation"
+                                ng-click="HideShow('PropertyInformation')">
+                            <i class="fa fa-chevron-up" ng-show="Content.PropertyInformation"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.PropertyInformation"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row p-3 collapse" id="PropertyInformation">
+                    <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Unit Number</label>
+                                <input type="text"
+                                       class="form-control"
+                                       ng-model="Inspection.UnitNumber"
+                                       ng-class="{ 'is-invalid' : applicantForm.eppei_firstname.$invalid && FormSubmitted }">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="inputPassword4">Street Number</label>
+                                <input type="text" class="form-control" ng-model="Inspection.StreetNumber">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Street Address</label>
+                                <input type="text" class="form-control" ng-model="Inspection.StreetAddress">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group  col-md-6">
+                                <label for="inputAddress">Suburb</label>
+                                <input type="text" class="form-control" ng-model="Inspection.Suburb">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control" ng-model="Inspection.City">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputState">State</label>
+                                <input type="text" class="form-control" ng-model="Inspection.State">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputZip">Postal Code</label>
+                                <input type="text" class="form-control" id="inputZip" ng-model="Inspection.PostalCode">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">Country</label>
+                                <input type="text" class="form-control" ng-model="Inspection.Country">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2" ng-show="DisplayQuestions()">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Questions</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#Questions"
+                                aria-expanded="false"
+                                aria-controls="Questions"
+                                ng-click="HideShow('Questions')">
+                            <i class="fa fa-chevron-up" ng-show="Content.Questions"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.Questions"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row p-3 collapse" id="Questions">
+                    <table class="table table-striped table-sm">
+                        <thead class="bg-light text-dark">
+                            <tr>
+                                <th style="width: 10%">Number</th>
+                                <th style="width: 60%">Question</th>
+                                <th style="width: 30%">Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="question in GetQuestions()">
+                                <td>
+                                    {{ question.Number }}
+                                </td>
+                                <td>
+                                    {{ question.Name }}  <span ng-show="question.IsMandatory" class="required"></span>
+                                <td>
+                                    <div ng-if="question.AnswerDataTypeText == 'Text'">
+                                        <input type="text" class="form-control" ng-model="question.Answer" ng-required="question.IsMandatory" />
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Decimal'">
+                                        <input type="number" step="0.1" class="form-control" ng-model="question.Answer" ng-required="question.IsMandatory" />
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Integer'">
+                                        <input type="number" class="form-control" ng-model="question.Answer" ng-required="question.IsMandatory" />
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Boolean (Yes/No)' || question.AnswerDataTypeText == 'Boolean (True/False)'">
+                                        <div class="custom-control custom-radio custom-control-inline" ng-model="question.Answer">
+                                            <input type="radio" id="{{ question.UniqueName }}1" name="{{ question.UniqueName }}" value="Yes" ng-model="question.Answer" class="custom-control-input" ng-change="" ng-required="question.IsMandatory">
+                                            <label class="custom-control-label" for="{{ question.UniqueName }}1">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline" ng-model="question.Answer">
+                                            <input type="radio" id="{{ question.UniqueName }}0" name="{{ question.UniqueName }}" value="No" ng-model="question.Answer" class="custom-control-input" ng-required="question.IsMandatory">
+                                            <label class="custom-control-label" for="{{ question.UniqueName }}0">No</label>
+                                        </div>
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Multi Text'">
+                                        <textarea class="form-control" ng-model="question.Answer" ng-required="question.IsMandatory"></textarea>
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Date'">
+                                        <input type="date" class="form-control input-date" ng-model="question.Answer" data-date-format="YYYY-MMMM-DD" ng-change="OnChangeDate(question)" ng-required="question.IsMandatory" />
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Option Set'">
+                                        <select class="form-control" ng-model="question.Answer" ng-required="question.IsMandatory">
+                                            <option ng-repeat="option in question.OptionSetValues" value="{{ option }}">{{ option }}</option>
+                                        </select>
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Lookup'">
+                                        <input type="text" class="form-control" ng-model="question.Answer" ng-required="question.IsMandatory" />
+                                    </div>
+                                    <div ng-if="question.AnswerDataTypeText == 'Multi Select Option Set'">
+                                        <div class="custom-control custom-checkbox" ng-repeat="option in question.OptionSetValues">
+                                            <input type="checkbox" class="custom-control-input" id="{{ option }}" ng-model="trueOrFalse" value="{{ option }}" ng-change="MultiOptionSetClicked(question, trueOrFalse, option)">
+                                            <label class="custom-control-label" for="{{ option }}">{{ option }}</label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="p-2">
+                <div class="row p-3 mb-2 bg-dark text-white" ng-if="DisplayQuestions()">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Terms & Conditions</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#TC"
+                                aria-expanded="false"
+                                aria-controls="TC"
+                                ng-click="HideShow('TC')">
+                            <i class="fa fa-chevron-up" ng-show="Content.TC"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.TC"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row p-3 collapse" id="TC">
+                    <table class="table table-striped table-sm">
+                        <thead class="bg-light text-dark">
+                            <tr>
+                                <th style="width: 80%">T&C</th>
+                                <th class="text-center" style="width: 20%">Accept</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="m-1" ng-repeat="question in GetTermsAndConditions()">
+                                <td>
+                                    {{ question.Name }}
+                                </td>
+                                <td class="float-right">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="{{ question.UniqueName }}" ng-model="question.Answer" ng-required="question.IsMandatory">
+                                        <label class="custom-control-label" for="{{ question.UniqueName }}"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="p-2" ng-if="ShowPaymentMethods()">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Payment Methods</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#PaymentMethod"
+                                aria-expanded="false"
+                                aria-controls="PaymentMethod"
+                                ng-click="HideShow('PaymentMethod')">
+                            <i class="fa fa-chevron-up" ng-show="Content.PaymentMethod"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.PaymentMethod"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row p-3 collapse show" id="PaymentMethod">
+                    <div class="col-md-12">
+                        <label>How would you like to pay?</label>
+                    </div>
+                    <div class="col-md-12 p-3">
+                        <div class="custom-control custom-radio custom-control-inline" ng-repeat="PaymentMethod in GetPaymentMethods()">
+                            <input type="radio"
+                                   id="{{ PaymentMethod.Id }}"
+                                   name="paymenthMethod"
+                                   ng-disabled="DisablePaymentMethods()"
+                                   class="custom-control-input"
+                                   value="{{ PaymentMethod.Name }}" ng-model="SelectedPaymentMethod.Name" ng-required="true">
+                            <label class="custom-control-label" for="{{ PaymentMethod.Id }}">{{ PaymentMethod.Name }}</label>
+                        </div>
+                        <!--<div class="custom-control custom-radio custom-control-inline" ng-show="VoucherAppliedSuccessfully">
+                            <input type="radio" id="123" name="paymenthMethod" class="custom-control-input" value="123" ng-model="SelectedPaymentMethod.Name" ng-checked="VoucherAppliedSuccessfully" ng-show="VoucherAppliedSuccessfully" ng-required="true">
+                            <label class="custom-control-label" for="123">Voucher</label>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <hr class="m-2 ln" ng-show="ShowPaymentMethods()" />
+            <div class="p-2" ng-show="ShowPaymentMethods()">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-labeled btn-success btn-lg pull-right">
+                            <span class="btn-label"><i class="fa fa-chevron-circle-right"></i></span>
+                            Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "3000",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    });
+</script>

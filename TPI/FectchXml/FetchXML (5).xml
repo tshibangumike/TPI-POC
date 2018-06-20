@@ -1,0 +1,15 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="productpricelevel">
+    <attribute name="productid" />
+    <attribute name="uomid" />
+    <attribute name="pricingmethodcode" />
+    <attribute name="amount" />
+    <order attribute="productid" descending="false" />
+    <link-entity name="product" from="productid" to="productid" visible="false" link-type="outer" alias="a_35f7863827cae711a82d000d3ae0e155">
+      <attribute name="parentproductid" />
+      <attribute name="name" />
+      <attribute name="price" />
+      <attribute name="pricelevelid" />
+    </link-entity>
+  </entity>
+</fetch>

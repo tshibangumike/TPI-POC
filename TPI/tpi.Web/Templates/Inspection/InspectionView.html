@@ -1,0 +1,496 @@
+﻿<div class="container-fluid m-3">
+    <div class="d-flex flex-column">
+        <div class="p-2">
+            <div class="row">
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-labeled btn-light btn-lg pull-left" ng-click="Back()">
+                        <span class="btn-label"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                        Back to search
+                    </button>
+                </div>
+                <div class="col-md-10">
+                    <button type="button" class="btn btn-labeled btn-success btn-lg pull-right" ng-click="Checkout()" ng-disabled="!CartItems.length">
+                        <span class="btn-label"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                        Checkout
+                        <span class="badge badge-success">{{ CartItems.length }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="p-2" ng-if="Inspection.Id.length">
+            <div class="row p-3 mb-2 bg-dark text-white">
+                <div class="col-md-12">
+                    <h6 class="float-left">Selected Site Address</h6>
+                    <button class="btn btn-dark float-right"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#SelectedSiteAddress"
+                            aria-expanded="false"
+                            aria-controls="SelectedSiteAddress"
+                            ng-click="HideShow('SiteAddress')">
+                        <i class="fa fa-chevron-up" ng-show="!Content.SiteAddress"></i>
+                        <i class="fa fa-chevron-down" ng-show="Content.SiteAddress"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row p-3 collapse" id="SelectedSiteAddress">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Site address:</label>
+                        <input type="text" class="form-control" value="{{ Inspection.InspectionAddress }}" ng-disabled="true" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 m-1" ng-if="Address.StreetAddress.length > 0">
+                        <button class="btn btn-labeled btn-info btn-sm pull-left" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <span class="btn-label"><i class="fa fa-info-circle" aria-hidden="true"></i></span>
+                            More Details
+                        </button>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body m-1">
+                                <form>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Street Number</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.StreetNumber }}" ng-disabled="true">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Street Address</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.StreetAddress }}" ng-disabled="true">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Sub Locality</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.SubLocality }}" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Suburb</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.Suburb }}" ng-disabled="true">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>City</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.City }}" ng-disabled="true">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>State</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.Province }}" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Country</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.Country }}" ng-disabled="true">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label>Postal Code</label>
+                                            <input type="text" class="form-control" placeholder="{{ Address.PostalCode }}" ng-disabled="true">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2" ng-if="Inspection.Id.length && CurrentUser.PortalUser.PortalUserRole == '85889000l1'">
+            <div class="row p-3 mb-2 bg-dark text-white">
+                <div class="col-md-12">
+                    <h6 class="float-left">Existing Products</h6>
+                    <button class="btn btn-dark float-right"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#ExistingProducts"
+                            aria-expanded="true"
+                            aria-controls="ExistingProducts"
+                            ng-click="HideShow('ExistingProducts')">
+                        <i class="fa fa-chevron-up" ng-show="Content.ExistingProducts"></i>
+                        <i class="fa fa-chevron-down" ng-show="!Content.ExistingProducts"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row p-3 collapse show" id="ExistingProducts">
+                <div class="col-md-12" ng-repeat="PProduct in GetPrePurchasedParentProducts()">
+                    <div class="row p-2 card-title bg-light">
+                        <div class="col-md-12">
+                            <h5 class="text-muted float-left">
+                                {{ PProduct.ParentProductName }}
+                            </h5>
+                            <button class="btn btn-light float-right" d
+                                    data-toggle="collapse"
+                                    data-target="#{{ PProduct.ParentProductId }}"
+                                    aria-expanded="false"
+                                    aria-controls="{{ PProduct.ParentProductId }}">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row collapse" id="{{ PProduct.ParentProductId }}">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>
+                                            Report
+                                        </th>
+                                        <th>
+                                            Released To
+                                        </th>
+                                        <th>
+                                            Vendor Pays
+                                        </th>
+                                        <th>
+                                            Buyer Pays
+                                        </th>
+                                        <th>
+                                            Final Buyer Pays
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="Product in GetPrePurchasedProducts(PProduct.ParentProductName)">
+                                        <td colspan="6">
+                                            <table class="tablex">
+                                                <tr>
+                                                    <td style="width:40%">
+                                                        <button type="button" class="btn btn-light">
+                                                            {{ Product.ProductName }}
+                                                        </button>
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        <button type="button" class="btn btn-link">
+                                                            {{ Product.ReportIsReleasedToText }}
+                                                        </button>
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        <button type="button" class="btn btn-link">
+                                                            {{ Product.AmountText }}
+                                                        </button>
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        <button type="button" class="btn btn-link">
+                                                            {{ Product.BuyerPaysText }}
+                                                        </button>
+                                                    </td>
+                                                    <td style="width:10%">
+                                                        <button type="button" class="btn btn-link">
+                                                            {{ Product.FinalBuyerPaysText }}
+                                                        </button>
+                                                    </td>
+                                                    <td style="width:20%">
+                                                        <button type="button"
+                                                                class="btn btn-labeled btn-info btn-lg"
+                                                                ng-click="AddItemToShoppingCart(Product)"
+                                                                ng-disabled="DisableAddCartButton(Product)">
+                                                            <span class="btn-label"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                                                            Add to cart
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    {{ Product.Conditionos }}
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="!GetPrePurchasedParentProducts().length">
+                    No records found.
+                </div>
+
+            </div>
+        </div>
+        <div class="p-2" ng-if="Inspection.Id.length">
+            <div class="row p-3 mb-2 bg-dark text-white">
+                <div class="col-md-12">
+                    <h6 class="float-left">Existing Products</h6>
+                    <button class="btn btn-dark float-right"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#ExistingProducts"
+                            aria-expanded="true"
+                            aria-controls="ExistingProducts"
+                            ng-click="HideShow('ExistingProducts')">
+                        <i class="fa fa-chevron-up" ng-show="Content.ExistingProducts"></i>
+                        <i class="fa fa-chevron-down" ng-show="!Content.ExistingProducts"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row p-3 collapse show" id="ExistingProducts">
+                <div class="col-md-12" ng-repeat="PProduct in GetPrePurchasedParentProducts()">
+                    <div class="row p-2 card-title bg-light">
+                        <div class="col-md-12">
+                            <h5 class="text-muted float-left">
+                                {{ PProduct.ParentProductName }}
+                            </h5>
+                            <button class="btn btn-light float-right" d
+                                    data-toggle="collapse"
+                                    data-target="#{{ PProduct.ParentProductId }}"
+                                    aria-expanded="false"
+                                    aria-controls="{{ PProduct.ParentProductId }}">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row collapse" id="{{ PProduct.ParentProductId }}">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <tbody>
+                                    <tr ng-repeat="Product in GetPrePurchasedProducts(PProduct.ParentProductName)">
+                                        <td class="col-md-6">
+                                            {{ Product.ProductName }}
+                                        </td>
+                                        <td class="col-md-3">
+                                            <h6 class="font-weight-bold">{{ Product.AmountText }}</h6>
+                                        </td>
+                                        <td class="col-md-3">
+                                            <button type="button" 
+                                                    class="btn btn-labeled btn-info btn-lg" 
+                                                    ng-click="AddItemToShoppingCart(Product)" 
+                                                    ng-disabled="DisableAddCartButton(Product)">
+                                                <span class="btn-label"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>
+                                                Add to cart
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="!GetPrePurchasedParentProducts().length">
+                    No records found.
+                </div>
+
+            </div>
+        </div>
+        <div class="p-2" ng-if="CurrentUser.PortalUser.PortalUserRole != '858890001'">
+            <!--For Contact-->
+            <div class="row p-3 mb-2 bg-dark text-white">
+                <div class="col-md-12">
+                    <h6 class="float-left">New Products</h6>
+                    <button class="btn btn-dark float-right"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target=".multi-collapse"
+                            aria-expanded="true"
+                            aria-controls="NewProducts1 NewProducts2"
+                            ng-click="HideShow('NewProducts')">
+                        <i class="fa fa-chevron-up" ng-show="Content.NewProducts"></i>
+                        <i class="fa fa-chevron-down" ng-show="!Content.NewProducts"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row p-3 collapse show multi-collapse" id="NewProducts1">
+                <div class="col-md-12 p-3">
+                    <div class="custom-control custom-radio custom-control-inline" ng-repeat="PriceListItem in PriceLists">
+                        <input type="radio" id="{{ PriceListItem.Name }}"
+                               name="customRadioInline1"
+                               class="custom-control-input"
+                               ng-model="SelectedPriceList.Id"
+                               value="{{ PriceListItem.Id }}"
+                               ng-disabled="DisablePriceListOption(PriceListItem)">
+                        <label class="custom-control-label" for="{{ PriceListItem.Name }}">{{ PriceListItem.Name }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-3 collapse show multi-collapse" id="NewProducts2">
+                <div class="col-md-12" ng-repeat="PProduct in GetUnParentPurchasedProducts()">
+                    <div class="row p-2 card-title bg-light">
+                        <div class="col-md-12">
+                            <h5 class="text-muted float-left">
+                                {{ PProduct.ParentProductName }}
+                            </h5>
+                            <button class="btn btn-light float-right" d
+                                    data-toggle="collapse"
+                                    data-target="#{{ PProduct.ParentProductId }}"
+                                    aria-expanded="false"
+                                    aria-controls="{{ PProduct.ParentProductId }}">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row collapse" id="{{ PProduct.ParentProductId }}">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <tbody>
+                                    <tr ng-repeat="Product in GetInspectionNonRelatedProductByPriceList(PProduct.ParentProductName)">
+                                        <td class="col-md-6">
+                                            {{ Product.ProductName }}
+                                        </td>
+                                        <td class="col-md-3">
+                                            <h6 class="font-weight-bold">{{ Product.AmountText }}</h6>
+                                        </td>
+                                        <td class="col-md-3">
+                                            <button type="button" class="btn btn-labeled btn-info btn-lg" ng-click="AddItemToShoppingCart(Product)" ng-disabled="DisableAddCartButton(Product)">
+                                                <span class="btn-label"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>Add to cart
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-2" ng-if="CurrentUser.PortalUser.PortalUserRole == '858890001'">
+            <!--For Account-->
+            <div class="row p-3 mb-2 bg-dark text-white">
+                <div class="col-md-12">
+                    <h6 class="float-left">New Products</h6>
+                    <button class="btn btn-dark float-right"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target=".multi-collapse"
+                            aria-expanded="true"
+                            aria-controls="NewProducts1 NewProducts2"
+                            ng-click="HideShow('NewProducts')">
+                        <i class="fa fa-chevron-up" ng-show="Content.NewProducts"></i>
+                        <i class="fa fa-chevron-down" ng-show="!Content.NewProducts"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row p-3 collapse show multi-collapse" id="NewProducts1">
+                <div class="col-md-12 p-3">
+                    <div class="custom-control custom-radio custom-control-inline" ng-repeat="PriceListItem in PriceLists">
+                        <input type="radio" id="{{ PriceListItem.Name }}"
+                               name="customRadioInline1"
+                               class="custom-control-input"
+                               ng-model="SelectedPriceList.Id"
+                               value="{{ PriceListItem.Id }}"
+                               ng-disabled="DisablePriceListOption(PriceListItem)">
+                        <label class="custom-control-label" for="{{ PriceListItem.Name }}">{{ PriceListItem.Name }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-3 collapse show multi-collapse" id="NewProducts2">
+                <div class="col-md-12" ng-repeat="PProduct in GetUnParentPurchasedProducts()">
+                    <div class="row p-2 card-title bg-light" style="background-color: #808080">
+                        <div class="col-md-12">
+                            <h5 class="text-muted float-left">
+                                {{ PProduct.ParentProductName }}
+                            </h5>
+                            <button class="btn btn-light float-right" d
+                                    data-toggle="collapse"
+                                    data-target="#{{ PProduct.ParentProductId }}"
+                                    aria-expanded="false"
+                                    aria-controls="{{ PProduct.ParentProductId }}">
+                                <i class="fa fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row collapse" id="{{ PProduct.ParentProductId }}">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    Report
+                                                </div>
+                                                <div class="col-md-1">
+                                                    Released To
+                                                </div>
+                                                <div class="col-md-1">
+                                                    Vendor Pays
+                                                </div>
+                                                <div class="col-md-1">
+                                                    Buyer Pays
+                                                </div>
+                                                <div class="col-md-1">
+                                                    Final Buyer Pays
+                                                </div>
+                                                <div class="col-md-1">
+                                                    Action
+                                                </div>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="Product in GetInspectionNonRelatedProductByPriceList(PProduct.ParentProductName)">
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    {{ Product.ProductName }}
+                                                </div>
+                                                <div class="col-md-1">
+                                                    {{ Product.ReportIsReleasedToText }}
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="font-weight-bold">
+                                                        {{ Product.AmountText }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="font-weight-bold">
+                                                        {{ Product.BuyerPaysText }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span class="font-weight-bold">
+                                                        {{ Product.FinalBuyerPaysText }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button type="button" class="btn btn-labeled btn-info btn-lg" ng-click="AddItemToShoppingCart(Product)" ng-disabled="DisableAddCartButton(Product)">
+                                                        <span class="btn-label"><i class="fa fa-cart-plus" aria-hidden="true"></i></span>Add to cart
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <small class="form-text text-muted">{{ Product.Conditions }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login or Register</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    We noticed that you are not logged. In order to proceed, you will have to log in. If you do not have an account with us, please click the register button
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="Login()">
+                    Login
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    <span class="sr-only">(current)</span>
+                </button>
+                <button class="btn btn-info" ng-click="Register()">
+                    Register
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                    <span class="sr-only">(current)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

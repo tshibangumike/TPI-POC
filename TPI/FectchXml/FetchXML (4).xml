@@ -1,0 +1,14 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="blu_inspectiondetail">
+    <attribute name="blu_inspectiondetailid" />
+    <attribute name="blu_name" />
+    <attribute name="createdon" />
+    <attribute name="blu_inspectionid" />
+    <order attribute="blu_name" descending="false" />
+    <link-entity name="product" from="productid" to="blu_productid" visible="false" link-type="outer" alias="a_d9166257f6e3e711a827000d3ae0cb84">
+      <attribute name="parentproductid" />
+      <attribute name="name" />
+      <attribute name="price" />
+    </link-entity>
+  </entity>
+</fetch>

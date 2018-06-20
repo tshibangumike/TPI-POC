@@ -1,0 +1,9 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="productpricelevel">
+    <attribute name="productid" />
+    <attribute name="uomid" />
+    <attribute name="pricingmethodcode" />
+    <attribute name="amount" />
+    <order attribute="productid" descending="false" />
+  </entity>
+</fetch>

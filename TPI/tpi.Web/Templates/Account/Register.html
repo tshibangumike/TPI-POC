@@ -1,0 +1,157 @@
+﻿<form ng-submit="ProcessForm()" name="registrationForm">
+    <div class="">
+        <div class="container p-5">
+            <div class="p-2">
+                <h1 class=""><strong>Portal Registration Information</strong></h1>
+            </div>
+            <div class="p-2 ">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Personal Information</h6>
+                    </div>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-2">
+                                    <label>
+                                        Are you 
+                                    <span ng-if="Customer.Type == '1'">an</span> 
+                                    <span ng-if="Customer.Type == '2'">a</span>
+                                    <span ng-if="Customer.Type != '1' && Customer.Type != '2'">a/an</span>
+                                    </label> <span class="required"></span>
+                                </div>
+                                <div class="form-group col-md-6 m-2">
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="individual" name="customertype" class="custom-control-input" value="1" ng-model="Customer.Type">
+                                        <label class="custom-control-label" for="individual">Individual</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="business" name="customertype" class="custom-control-input" value="2" ng-model="Customer.Type">
+                                        <label class="custom-control-label" for="business">Business</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-row" ng-if="Customer.Type == '2'">
+                            <div class="form-group col-md-12">
+                                <label>Business Name</label> <span class="required"></span>
+                                <input type="text" class="form-control" ng-model="Customer.Name" ng-required="true" ng-disabled="!Customer.Type.length">
+                            </div>
+                        </div>
+                        <div class="form-row" ng-if="Customer.Type == '1'">
+                            <div class="form-group col-md-6">
+                                <label>First name</label> <span class="required"></span>
+                                <input type="text" class="form-control" ng-model="Customer.Firstname" ng-required="true" ng-disabled="!Customer.Type.length">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last name</label> <span class="required"></span>
+                                <input type="text" class="form-control" ng-model="Customer.Lastname" ng-required="true" ng-disabled="!Customer.Type.length">
+                            </div>
+                        </div>
+                        <div class="form-row" ng-if="Customer.Type != '1' && Customer.Type != '2'">
+                            <div class="form-group col-md-6">
+                                <label>First name</label> <span class="required"></span>
+                                <input type="text" class="form-control" ng-disabled="!Customer.Type.length">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Last name</label> <span class="required"></span>
+                                <input type="text" class="form-control" ng-disabled="!Customer.Type.length">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Email</label> <span class="required"></span>
+                                <input type="email" class="form-control" ng-model="Customer.EmailAddress" ng-required="true" ng-disabled="!Customer.Type.length">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Contact number</label> <span class="required"></span>
+                                <input type="tel" class="form-control" ng-model="Customer.ContactNumber" ng-required="true" ng-disabled="!Customer.Type.length">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">Login Details</h6>
+                    </div>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Username</label> <span class="required"></span>
+                                <input type="text" class="form-control"
+                                       ng-model="PortalUser.Username"
+                                       ng-required="true">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Register As</label> <span class="required"></span>
+                                <select class="form-control" ng-model="PortalUser.PortalUserRole" ng-disabled="true">
+                                    <option value="858890000">General Consumer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Password</label> <span class="required"></span>
+                                <input type="password" class="form-control"
+                                       ng-class="{ 'is-valid' : Password2.length > 0 && (Password1 == Password2) }"
+                                       ng-model="Password1"
+                                       ng-required="true"
+                                       ng-change="OnChange_Password()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Retype password</label> <span class="required"></span>
+                                <input type="password" class="form-control"
+                                       ng-class="{ 'is-valid' : Password2.length > 0 && (Password1 == Password2) }"
+                                       ng-model="Password2"
+                                       ng-required="true"
+                                       ng-change="OnChange_Password()">
+                            </div>
+                        </div>
+                        <div>
+                            <input type="hidden" ng-model="PortalUser.Password" ng-required="true" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2" ng-if="FormErrorMessages.length">
+                <hr />
+                <p class="text-danger font-weight-bold">Please attend to these errors</p>
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div class="text-danger font-weight-bold" ng-repeat="Error in FormErrorMessages">* {{ Error }}</div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <hr class="m-2 ln" />
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-12 my-2">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-labeled btn-success btn-lg" ng-disabled="!registrationForm.$valid">
+                                Register <span class="btn-label btn-label-right"><i class="fa fa-floppy-o" aria-hidden="true"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+

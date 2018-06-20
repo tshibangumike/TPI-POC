@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Changelog for Kendo UI Core v2016.2.607 (June 07, 2016)</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: .75em/1.5 Tahoma, sans-serif;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-size: normal;
+        }
+
+        h2 {
+            font-size: 2em;
+            font-weight: normal;
+
+            margin: 1.2em 0 .3em;
+            padding-bottom: .2em;
+        }
+
+        .breaking {
+            background-color: #e10c01;
+            color: #fff;
+            border-radius: 3px;
+            padding: 3px 4px;
+            display: inline-block;
+            font-size: 11px;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        #page {
+            width: 50em;
+            margin: 0 auto 2em;
+            border-radius: 0 0 1em 1em;
+            box-shadow: 0 0 10px #ccc;
+            padding: 1em 2em 2em;
+        }
+
+        .poBoxIcon {
+            float: left;
+            font-size: 2em;
+            margin: 1.2em .5em 0 0;
+        }
+
+        .poTopLine {
+            border-top: 2px solid #e1e1e1;
+            margin: 17px 0 40px 0;
+        }
+    </style>
+
+    <base href="http://www.telerik.com/support/whats-new/kendo-ui-web/release-history">
+</head>
+<body>
+    <div id="page">
+        <h1 class="title">Release notes for Kendo UI Core v2016.2.607</h1>
+
+        <h1>Components</h1>
+        <div class="tClear poTopLine">
+            <div class="poBoxIconText">
+                <p><strong>What's new</strong></p>
+<ul>
+<li>Group layers by interaction state in theme PSDs</li>
+</ul>
+                <p><strong>What's fixed</strong></p>
+<ul>
+<li>TypeScript: Missing footerAttributes in GridColumn</li>
+<li>Navigator does not allow selection of the last date</li>
+<li>TypeScript definitions yield errors upon compilation in VS2015</li>
+</ul>
+            </div>
+        </div>
+
+
+        <div class="tClear poTopLine">
+            <h2>AngularJS</h2>
+            <p><strong>What's new</strong></p>
+<ul>
+<li>Support k-data-source configuration attribute</li>
+</ul>
+            
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Calendar</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>setOptions does not allow clearing the dates option</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>ColorPicker</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>ColorPicker should not open when disabled via API method or label click</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>ComboBox</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Remove aria-readonly attribute from role="listbox"/role="combobox"</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>DataSource</h2>
+            <p><strong>What's new</strong></p>
+<ul>
+<li>Add Symbol.iterator support to ObservableArray to allow ES6 for-of, etc.</li>
+</ul>
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Destroyed records are persisted when DataSource is re-read</li>
+<li>Data Source should mark offline items in __create__ state as dirty when they are read from the offline storage in order to correctly sync them when it becomes online</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>DatePicker</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Remove aria-readonly attribute from role="listbox"/role="combobox"</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>DateTimePicker</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Remove aria-readonly attribute from role="listbox"/role="combobox"</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Draggable</h2>
+            <p><strong>What's new</strong></p>
+<ul>
+<li>Support autoscroll when custom hint is used</li>
+</ul>
+            
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Drawing</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>An error is thrown by the canvas surface for elements without bounding box</li>
+<li>kendo.drawing.pdf.saveAs does not work in Firefox</li>
+<li>repeatHeaders:true duplicates Grid headers if Grid scrolling is disabled</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>DropDownList</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Remove aria-readonly attribute from role="listbox"/role="combobox"</li>
+<li>Home/End navigation does not trigger change when popup is closed</li>
+<li>Widget makes two requests when cascaded</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Excel Export</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Grid lines are hidden by default in exported Excel file</li>
+<li>Rowspan configuration may cause some cells to disappear</li>
+<li>Misplaced headers when exporting to excel</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Globalization</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>kendo.parseDate does not parse ko-KR dates correctly</li>
+<li>kendo.toString puts group separator in the wrong place when value is negative</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>MultiSelect</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Remove aria-readonly attribute from role="listbox"/role="combobox"</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>Notification</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Notification popups that are currently being hidden should not be returned by getNotifications()</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>PDF Export</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Error when exporting PDF content with only 'margin' specified</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>PivotGrid</h2>
+            <p><strong>What's new</strong></p>
+<ul>
+<li>Support k-data-source configuration attribute</li>
+<li>Enhance icon sizes in Material themes</li>
+</ul>
+            
+        </div>
+        <div class="tClear poTopLine">
+            <h2>TabStrip</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>TabStrip border is not correctly styled in the Nova theme</li>
+</ul>
+        </div>
+        <div class="tClear poTopLine">
+            <h2>TimePicker</h2>
+            
+            <p><strong>What's fixed</strong></p>
+<ul>
+<li>Remove aria-readonly attribute from role="listbox"/role="combobox"</li>
+</ul>
+        </div>
+    </div>
+</body>
+</html>

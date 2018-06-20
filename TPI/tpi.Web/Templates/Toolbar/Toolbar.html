@@ -1,0 +1,36 @@
+﻿<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+    <li class="nav-item " ng-if="!IsLoggedIn">
+        <button class="btn btn-dark" ng-click="Login()">
+            Login
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+            <span class="sr-only">(current)</span>
+        </button>
+    </li>
+    <li class="nav-item" ng-if="!IsLoggedIn">
+        <button class="btn btn-dark" ng-click="Register()">
+            Register
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+            <span class="sr-only">(current)</span>
+        </button>
+    </li>
+    <li class="nav-item dropdown" ng-if="IsLoggedIn">
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                {{ CurrentUser.PortalUser.Name }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" type="button" ng-click="Account()">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    Account
+                </button>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item" type="button" ng-click="Logout()">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </li>
+</ul>
+

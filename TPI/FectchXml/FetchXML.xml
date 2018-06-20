@@ -1,0 +1,14 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="salesorder">
+    <attribute name="name" />
+    <attribute name="customerid" />
+    <attribute name="statuscode" />
+    <attribute name="totalamount" />
+    <attribute name="salesorderid" />
+    <attribute name="ordernumber" />
+    <order attribute="name" descending="false" />
+    <filter type="and">
+      <condition attribute="salesorderid" operator="eq" uiname="New Opportunity Created On 17/1/2018 09:46:55" uitype="salesorder" value="{79588A9B-66FB-E711-A84B-000D3AD0ED15}" />
+    </filter>
+  </entity>
+</fetch>

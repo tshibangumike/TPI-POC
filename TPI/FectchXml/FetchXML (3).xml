@@ -1,0 +1,11 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="blu_inspection">
+    <attribute name="blu_inspectionid" />
+    <attribute name="blu_name" />
+    <attribute name="createdon" />
+    <order attribute="blu_name" descending="false" />
+    <filter type="and">
+      <condition attribute="blu_inspectionaddress" operator="like" value="%beach%" />
+    </filter>
+  </entity>
+</fetch>

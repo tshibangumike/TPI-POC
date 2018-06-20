@@ -1,0 +1,229 @@
+﻿<div class="container m-5">
+    <div class="p-2">
+        <div class="row p-3 mb-2 bg-dark text-white">
+            <div class="col-md-12">
+                <h6 class="float-left">Personal Information</h6>
+                <button class="btn btn-dark float-right"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#Profile"
+                        aria-expanded="false"
+                        aria-controls="Profile"
+                        ng-click="HideShow('Profile')">
+                    <i class="fa fa-chevron-up" ng-show="Content.Profile"></i>
+                    <i class="fa fa-chevron-down" ng-show="!Content.Profile"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row p-3 collapse show" id="Profile">
+            <div class="col-md-12">
+                <form name="customerForm" ng-submit="ProcessFormCustomer()">
+                    <div class="card mb-3" ng-if="Customer.CustomerType == 2">
+                        <div class="card-body text-dark">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>First name</label>
+                                    <input type="text" class="form-control" ng-model="Customer.Firstname" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Last name</label>
+                                    <input type="text" class="form-control" ng-model="Customer.Lastname" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Email Address</label>
+                                    <input type="text" class="form-control" ng-model="Customer.EmailAddress" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Contact Number</label>
+                                    <input type="text" class="form-control" ng-model="Customer.ContactNumber" />
+                                </div>
+                            </div>
+                            <hr />
+                            <button type="submit" class="btn btn-labeled btn-success btn-lg pull-right" ng-disabled="!customerForm.$valid">
+                                <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card mb-3" ng-if="Customer.CustomerType == 1">
+                        <div class="card-body text-dark">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>Business Name</label>
+                                    <input type="text" class="form-control" ng-model="Customer.Name" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label>Email Address</label>
+                                    <input type="text" class="form-control" ng-model="Customer.EmailAddress" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Contact Number</label>
+                                    <input type="text" class="form-control" ng-model="Customer.ContactNumber" />
+                                </div>
+                            </div>
+                            <hr />
+                            <button type="submit" class="btn btn-labeled btn-success btn-lg pull-right" ng-disabled="!customerForm.$valid">
+                                <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="p-2">
+        <div class="row p-3 mb-2 bg-dark text-white">
+            <div class="col-md-12">
+                <h6 class="float-left">Orders</h6>
+                <button class="btn btn-dark float-right"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#Orders"
+                        aria-expanded="false"
+                        aria-controls="Orders"
+                        ng-click="HideShow('Orders')">
+                    <i class="fa fa-chevron-up" ng-show="Content.Orders"></i>
+                    <i class="fa fa-chevron-down" ng-show="!Content.Orders"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row p-3 collapse show" id="Orders">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th style="width: 15%">
+                                Order Number
+                            </th>
+                            <th style="width: 40%">
+                                Property
+                            </th>
+                            <th style="width: 30%">
+                                Product
+                            </th>
+                            <th style="width: 15%">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="order in Orders | orderBy : 'order.InspectionName'">
+                            <td>{{ order.InspectionName }}</td>
+                            <td>{{ order.PropertyName }}</td>
+                            <td>{{ order.ProductName }}</td>
+                            <td>
+                                <button type="button" class="btn btn-labeled btn-dark btn-lg pull-right" ng-if="!order.DownloadUrl.length" ng-disabled="true">
+                                    <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                                    Download Report
+                                </button>
+                                <button type="button" class="btn btn-labeled btn-success btn-lg pull-right" ng-if="order.DownloadUrl.length" ng-click="DownloadReport(order.InspectionName, order.InspectionId, order.DownloadUrl)">
+                                    <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                                    Download Report
+                                </button>
+
+                                <a id='dwnldLnk' download='{{ order.DownloadUrl }}.pdf' style="display:none;" />
+                            </td>
+                        </tr>
+                        <tr ng-if="!Orders.length">
+                            <td colspan="5">No records found!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="p-2">
+        <div class="row p-3 mb-2 bg-dark text-white">
+            <div class="col-md-12">
+                <h6 class="float-left">Credentials</h6>
+                <button class="btn btn-dark float-right"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#Credentials"
+                        aria-expanded="false"
+                        aria-controls="Credentials"
+                        ng-click="HideShow('Credentials')">
+                    <i class="fa fa-chevron-up" ng-show="Content.Credentials"></i>
+                    <i class="fa fa-chevron-down" ng-show="!Content.Credentials"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row p-3 collapse" id="Credentials">
+            <div class="col-md-12">
+                <form name="credentialForm" ng-submit="ProcessFormPortalUser()">
+                    <div class="card mb-3">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Username</label>
+                                <input type="text" class="form-control" ng-model="PortalUser.Username" ng-disabled="true" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Password</label> <span class="required"></span>
+                                <input type="password" class="form-control"
+                                       ng-class="{ 'is-valid' : Password2.length > 0 && (Password1 == Password2) }"
+                                       ng-model="Password1"
+                                       ng-required="true"
+                                       ng-change="OnChange_Password()">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Retype password</label> <span class="required"></span>
+                                <input type="password" class="form-control"
+                                       ng-class="{ 'is-valid' : Password2.length > 0 && (Password1 == Password2) }"
+                                       ng-model="Password2"
+                                       ng-required="true"
+                                       ng-change="OnChange_Password()">
+                            </div>
+                            <div>
+                                <input type="hidden" ng-model="PortalUser.Password" ng-required="true" />
+                            </div>
+                        </div>
+                        <hr ng-if="FormErrorMessages.length" />
+                        <div class="p-2" ng-if="FormErrorMessages.length">
+                            <hr />
+                            <p class="text-danger font-weight-bold">Please attend to these errors</p>
+                            <div class="row">
+                                <div class="col-md-6 ">
+                                    <div class="text-danger font-weight-bold" ng-repeat="Error in FormErrorMessages">* {{ Error }}</div>
+                                </div>
+                            </div>
+                            <hr />
+                        </div>
+                        <hr class="m-2" />
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-labeled btn-success btn-lg float-right" ng-disabled="!credentialForm.$valid">
+                                <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "3000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>

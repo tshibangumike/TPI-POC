@@ -1,0 +1,16 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="blu_inspectiondetail">
+    <attribute name="blu_inspectiondetailid" />
+    <attribute name="blu_name" />
+    <attribute name="createdon" />
+    <attribute name="blu_productid" />
+    <attribute name="blu_inspectionid" />
+    <order attribute="blu_name" descending="false" />
+    <link-entity name="blu_inspection" from="blu_inspectionid" to="blu_inspectionid" link-type="inner" alias="aa">
+      <attribute name="blu_inspectionaddress" />
+      <filter type="and">
+        <condition attribute="blu_inspectionaddress" operator="like" value="1341%" />
+      </filter>
+    </link-entity>
+  </entity>
+</fetch>

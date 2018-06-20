@@ -1,0 +1,106 @@
+﻿<form ng-submit="ProcessForm()" name="paymentForm">
+    <div class="container-fluid m-3">
+        <div class="d-flex flex-column">
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-labeled btn-light btn-lg pull-left" ng-click="Back()">
+                                <span class="btn-label"><i class="fa fa-chevron-left"></i></span>
+                                Back to Cart
+                            </button>
+                            <button type="submit" class="btn btn-labeled btn-success btn-lg pull-left" ng-disabled="!paymentForm.$valid">
+                                <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h4 class="font-weight-bold pull-right">Schedule your Appointment</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <div class="col-md-12">
+                        <h6 class="float-left">{{ Product.ProductName }}</h6>
+                        <button class="btn btn-dark float-right"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#Scheduler"
+                                aria-expanded="false"
+                                aria-controls="Scheduler"
+                                ng-click="HideShow('Scheduler')">
+                            <i class="fa fa-chevron-up" ng-show="Content.Scheduler"></i>
+                            <i class="fa fa-chevron-down" ng-show="!Content.Scheduler"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-3 collapse show" id="Scheduler">
+                    <div class="row border-bottom p-1  m-1">
+                        <div class="col-md-4">
+                            <label>Select an Inspector</label>
+                            <select class="form-control" ng-model="SelectedInspector.Id" ng-change="OnChangeInspector()" ng-required="true">
+                                <option value="all" >All Inspectors</option>
+                                <option ng-repeat="inspector in Inspectors" value="{{ inspector.Id }}">{{ inspector.Fullname }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="external-events">
+                                <label>Drag and drop me on the calendar</label>
+                                <div class="fc-event btn btn-dark btn-lg" style="cursor: grabbing">{{ Product.ProductName }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m-1">
+                        <div class="col-md-12 p-3">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 m-1">
+                            <span>...</span>
+                            <button type="button" class="btn btn-labeled btn-danger btn-lg pull-left" ng-click="RefreshEvent()">
+                                <span class="btn-label"><i class="fa fa-times"></i></span>
+                                Remove appointment from calendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-2 ln" />
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-labeled btn-success btn-lg pull-right" ng-disabled="!paymentForm.$valid">
+                            <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "3000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>
+

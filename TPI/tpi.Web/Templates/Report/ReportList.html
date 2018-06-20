@@ -1,0 +1,51 @@
+﻿<div layout="row" >
+    <div flex>
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Book an appointment for one of our building consultants</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <form name="Form" ng-submit="BuyReport()">
+                    <div layout="column" layout-padding flex-offset="5">
+                        <div flex>
+                            <md-input-container>
+                                <label>Select a report category</label>
+                                <md-select ng-model="SelectedParentReportId" required="">
+                                    <md-option ng-repeat="ParentReport in ParentReports" value="{{ParentReport.Id}}">{{ParentReport.Name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex>
+                            <md-input-container>
+                                <label>Select a report to purchase</label>
+                                <md-select ng-model="SelectedChildReportId" md-on-open="LoadChildReport(SelectedParentReportId)" required="">
+                                    <md-option ng-repeat="ChildReport in ChildReports" value="{{ChildReport.Id}}">{{ChildReport.Name}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex>
+                            <md-input-container>
+                                <label>Select a price option</label>
+                                <md-select ng-model="SelectedPriceListItemAmount" md-on-open="LoadPriceList(SelectedChildReportId)" required="">
+                                    <md-option ng-repeat="PriceListItem in PriceListItems" value="{{PriceListItem.Amount}}">{{PriceListItem.Name}} - ${{PriceListItem.Amount}}</md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div flex>
+                            <md-button ng-disabled="!Form.$valid" class="md-raised md-primary" type="submit" >Buy Report</md-button>
+                        </div>
+                    </div>
+                </form>
+            </md-card-content>
+            <md-card-footer>
+            </md-card-footer>
+        </md-card>
+    </div>
+</div>
+
+
+
+
+

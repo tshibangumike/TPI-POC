@@ -1,0 +1,56 @@
+﻿
+<script src="https://secure.ewaypayments.com/scripts/eCrypt.min.js"></script>
+
+<div class="container p-5">
+    <div class="jumbotron" ng-if="TransactionStatus == '1'">
+        <h1 class="display-4">Transaction successful</h1>
+        <p ng-if="CurrentUser.BackOrderProductExists">
+            One or more reports are on backorder, and you will be notified by email when it is available to download.
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Buyer:</label>
+                        </div>
+                        <div class="col-md-4">
+                            {{ CurrentUser.PortalUser.Name }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Reference Number:</label>
+                        </div>
+                        <div class="col-md-4">
+                            {{ ReferenceNumber }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Order Number:</label>
+                        </div>
+                        <div class="col-md-4">
+                            {{ Order.OrderNumber }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Amount Paid:</label>
+                        </div>
+                        <div class="col-md-4">
+                            {{ Order.TotalAmountDisplayName }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <button type="button" class="btn btn-labeled btn-dark btn-lg" ng-click="Search()">
+                <span class="btn-label"><i class="fa fa-chevron-circle-left"></i></span>
+                Return Search
+            </button>
+
+        </p>
+    </div>
+</div>

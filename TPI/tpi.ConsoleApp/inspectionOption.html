@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="../Css/InspectionQA_Style.css" rel="stylesheet">
+    <script src="../../ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <script src="../Script/jquery.min.js" type="text/javascript"></script>
+    <script src="../Script/angular.min.js" type="text/javascript"></script>
+    <style>
+        .border {
+            border-width: 3px !important;
+        }
+    </style>
+</head>
+<body onload="DocumentLoaded()" class="" ng-app="InspectionQA_App">
+    <div ng-controller="InspectionQAController">
+        <div class="container-fluid">
+            <h1 class="my-4 text-center text-lg-left">Thumbnail Gallery</h1>
+            <div class="row text-center text-lg-left">
+                <div class="float-left"
+                     ng-class="{'border border-success' : inspectionPhoto.toggle}"
+                     ng-click="inspectionPhoto.toggle = !inspectionPhoto.toggle"
+                     ng-repeat="inspectionPhoto in inspectionPhotos">
+                    <a class="">
+                        <img class="img-fluid img-thumbnail" ng-src="{{ inspectionPhoto.image }}" alt="" style="height: 150px; width: 200px">
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 m-1" ng-if="inspectionPhotos.length > 0">
+                    <button type="button" class="btn btn-primary btn-block" ng-click="attachSelected()">Attach Selected</button>
+                </div>
+                <div class="col-md-3 m-1">
+                    <div class="custom-file">
+                        <input type="file" id="fileCtrl" class="custom-file-input" multiple>
+                        <label class="custom-file-label" for="fileCtrl">Choose file</label>
+                    </div>
+                </div>
+                <div class="col-md-3 m-1">
+                    <button type="button" id="uploadBtn" class="btn btn-primary btn-block">Upload Files</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../Script/InspectionOptionController.js" type="text/javascript"></script>
+    <script src="../Script/InspectionOption.js" type="text/javascript"></script>
+</body>
+</html>

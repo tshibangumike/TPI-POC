@@ -1,0 +1,31 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="productpricelevel">
+    <attribute name="productid" />
+    <attribute name="uomid" />
+    <attribute name="pricingmethodcode" />
+    <attribute name="amount" />
+    <order attribute="productid" descending="false" />
+    <link-entity name="product" from="productid" to="productid" visible="false" link-type="outer" alias="a_35f7863827cae711a82d000d3ae0e155">
+      <attribute name="parentproductid" />
+      <attribute name="name" />
+      <attribute name="price" />
+      <attribute name="pricelevelid" />
+    </link-entity>
+    <link-entity name="pricelevel" from="pricelevelid" to="pricelevelid" visible="false" link-type="outer" alias="a_ebf6863827cae711a82d000d3ae0e155">
+      <attribute name="name" />
+      <attribute name="statecode" />
+      <attribute name="begindate" />
+      <attribute name="overriddencreatedon" />
+      <attribute name="modifiedon" />
+      <attribute name="modifiedonbehalfby" />
+      <attribute name="modifiedby" />
+      <attribute name="exchangerate" />
+      <attribute name="enddate" />
+      <attribute name="description" />
+      <attribute name="transactioncurrencyid" />
+      <attribute name="createdon" />
+      <attribute name="createdonbehalfby" />
+      <attribute name="createdby" />
+    </link-entity>
+  </entity>
+</fetch>

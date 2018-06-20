@@ -1,0 +1,15 @@
+<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
+  <entity name="systemuser">
+    <attribute name="fullname" />
+    <attribute name="title" />
+    <attribute name="address1_telephone1" />
+    <attribute name="businessunitid" />
+    <attribute name="siteid" />
+    <attribute name="positionid" />
+    <attribute name="systemuserid" />
+    <order attribute="fullname" descending="false" />
+    <filter type="and">
+      <condition attribute="blu_isaninspector" operator="eq" value="1" />
+    </filter>
+  </entity>
+</fetch>

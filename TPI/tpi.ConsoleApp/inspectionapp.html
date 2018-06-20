@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="../Css/InspectionQA_Style.css" rel="stylesheet">
+    <script src="../../ClientGlobalContext.js.aspx" type="text/javascript"></script>
+    <script src="../Script/jquery.min.js" type="text/javascript"></script>
+    <script src="../Script/angular.min.js" type="text/javascript"></script>
+    <style>
+        .dv {
+            position: absolute;
+            top: 5px;
+            left: 0;
+            /*width: 100%;*/
+            /*height: 200px;*/
+            -webkit-overflow-scrolling: touch;
+            overflow-x: scroll;
+            overflow-y: scroll;
+            width: 100%;
+            border: 1px solid #808080;
+        }
+
+        .dv-ribbon {
+        }
+
+        .dv-body {
+        }
+    </style>
+</head>
+<body ng-app="InspectionQA_App">
+    <div ng-app="InspectionQA_App" ng-controller="InspectionQAController">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <table class="table">
+                    <tr>
+                        <!--category-->
+                        <td ng-show="showCategory" class="dv">
+                            <table class="table">
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <span class="h5">Question categories</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="openCamera()">Camera</button>
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showCategories()">Refresh</button>
+                                            <button type="button" class="btn mr-1" ng-class="showPhotos ? 'btn-success' : 'btn-secondary'" ng-click="showPhotos = !showPhotos">Show Photos</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" ng-repeat="category in categories" ng-click="showQuestions(category)">
+                                                <span class="badge badge-success badge-pill m-1" ng-if="category.allQuestionHasBeenAnswered">
+                                                    <span class="text-success">.</span>
+                                                </span>
+                                                <span class="badge badge-secondary badge-pill m-1" ng-if="!category.allQuestionHasBeenAnswered">
+                                                    <span class="text-secondary">.</span>
+                                                </span>
+                                                <span class="m-1">{{ category.name }}</span>
+                                            </li>
+                                            <li class="list-group-item" ng-if="showPhotos">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                                        ng-repeat="inspectionPhoto in inspectionPhotos">
+                                                        <img src="{{ inspectionPhoto.image }}" style="width: 70px; width: 70px;" alt="..." />
+                                                        <span class="font-weight-normal">{{ inspectionPhoto.name }}</span>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--question-->
+                        <td ng-show="showQuestion" class="dv">
+                            <table class="table">
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <span class="h5">{{ selectedCategory.name }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showQuestions(selectedCategory)">Refresh</button>
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showCategories()">Back</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" ng-repeat="question in questions" ng-click="showAnswers(question)">
+                                                <span class="badge badge-success badge-pill m-1" ng-if="question.questionHasBeenAnswered">
+                                                    <span class="text-success">.</span>
+                                                </span>
+                                                <span class="badge badge-secondary badge-pill m-1" ng-if="!question.questionHasBeenAnswered">
+                                                    <span class="text-secondary">.</span>
+                                                </span>
+                                                <span class="m-1">{{ question.name }}</span>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--answer-->
+                        <td ng-show="showAnswer" class="dv">
+                            <table class="table">
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <span class="h5">{{ selectedQuestion.name }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showAnswers(selectedQuestion)">Refresh</button>
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="backToShowingQuestions()">Back</button>
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showNotes()">Notes</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" ng-if="selectedQuestion.answerType == '858890000'">
+                                                <!--Two Options-->
+                                                <div ng-repeat="answer in answers">
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio"
+                                                               id="customRadioYes"
+                                                               name="customRadioYesNo"
+                                                               class="custom-control-input"
+                                                               ng-model="answer.name"
+                                                               value="Yes"
+                                                               ng-change="UpdateAnswerRecordsForInputOfTypeTwoOptions(answer)" />
+                                                        <label class="custom-control-label" for="customRadioYes">Yes</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio"
+                                                               id="customRadioNo"
+                                                               name="customRadioYesNo"
+                                                               class="custom-control-input"
+                                                               ng-model="option.name"
+                                                               value="No"
+                                                               ng-change="UpdateAnswerRecordsForInputOfTypeTwoOptions(answer)" />
+                                                        <label class="custom-control-label" for="customRadioNo">No</label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedQuestion.answerType == '858890001'">
+                                                <!--Whole Number-->
+                                                <div class="col-md-12" ng-repeat="answer in answers">
+                                                    <input type="number" class="form-control" ng-model="answer.name" ng-change="UpdateAnswerRecordsForInputOfTypeText(answer)" />
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedQuestion.answerType == '858890002'">
+                                                <!--Date & Time-->
+                                                <div class="col-md-12" ng-repeat="answer in answers">
+                                                    <input type="datetime" class="form-control" ng-model="answer.name" ng-change="UpdateAnswerRecordsForInputOfTypeText(answer)" />
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedQuestion.answerType == '858890003'">
+                                                <!--Option Set-->
+                                                <div class="custom-control custom-checkbox mt-2" ng-repeat="answer in answers">
+                                                    <input type="checkbox"
+                                                           id="{{ answer.id }}"
+                                                           ng-model="answer.selected"
+                                                           ng-change="UpdateAnswerRecordsForInputOfTypeOptionSet(answer)" />
+                                                    <label class="custom-control-label" for="{{ answer.id }}">{{ answer.name }}</label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedQuestion.answerType == '858890004'">
+                                                <!--Text-->
+                                                <div class="col-md-12" ng-repeat="answer in answers">
+                                                    <input type="text" class="form-control" ng-model="answer.name" ng-change="UpdateAnswerRecordsForInputOfTypeText(answer)" />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--notes-->
+                        <td ng-show="showNote" class="dv">
+                            <table class="table">
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <span class="h5">{{ selectedQuestion.name }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="backToShowingAnswersFromNotes()">Back</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group list-group-flush" ng-if="getAnswersSupplementaryTexts().length > 0">
+                                            <li class="list-group-item" ng-repeat="answer in getAnswersSupplementaryTexts()">
+                                                <p>
+                                                    {{ answer.supplementaryText }}
+                                                </p>
+                                                <div class="float-left"ng-repeat="image in answer.images" >
+                                                    <img class="img-fluid img-thumbnail"  ng-src="{{ image }}" style="width: 200px; width: 150px;" alt="..." />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--explanation-->
+                        <td ng-show="showExplanation" class="dv">
+                            <table class="table">
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <span class="h5">{{ selectedAnswer.name }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showExplanations(selectedAnswer)">Refresh</button>
+                                            <button type="button" class="btn btn-outline-secondary mr-1" ng-click="showAnswers(selectedQuestion)">Back</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" ng-repeat="explanation in explanations" ng-click="showOptions(explanation)">
+                                                <span class="badge badge-success badge-pill m-1" ng-if="explanation.explanationHasBeenGiven">
+                                                    <span class="text-success">.</span>
+                                                </span>
+                                                <span class="badge badge-secondary badge-pill m-1" ng-if="!explanation.explanationHasBeenGiven">
+                                                    <span class="text-secondary">.</span>
+                                                </span>
+                                                <span class="m-1">{{ explanation.name }}</span>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!--option-->
+                        <td ng-show="showOption" class="dv">
+                            <table class="table">
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <span class="h5">{{ selectedExplanation.name }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-outline-secondary m-1" ng-click="openCamera('true')">Camera</button>
+                                            <button type="button" class="btn btn-outline-secondary m-1" ng-click="showOptions(selectedExplanation)">Refresh</button>
+                                            <button type="button" class="btn btn-outline-secondary m-1" ng-disabled="" ng-click="backToShowingExplanations()">Back</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div id="opt"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item" ng-if="selectedExplanation.explanationType == '858890000'">
+                                                <!--two options-->
+                                                <div ng-repeat="option in options">
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio"
+                                                               id="customRadioYes"
+                                                               name="customRadioYesNo"
+                                                               class="custom-control-input"
+                                                               ng-model="option.name"
+                                                               value="Yes"
+                                                               ng-change="UpdateOptionRecordsForInputOfTypeTwoOptions(option)" />
+                                                        <label class="custom-control-label" for="customRadioYes">Yes</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio"
+                                                               id="customRadioNo"
+                                                               name="customRadioYesNo"
+                                                               class="custom-control-input"
+                                                               ng-model="option.name"
+                                                               value="No"
+                                                               ng-change="UpdateOptionRecordsForInputOfTypeTwoOptions(option)" />
+                                                        <label class="custom-control-label" for="customRadioNo">No</label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedExplanation.explanationType == '858890001'">
+                                                <!--whole number-->
+                                                <div class="col-md-12" ng-repeat="option in options">
+                                                    <input type="number" class="form-control" ng-model="option.name" ng-change="UpdateOptionRecordsForInputOfTypeText(option)" />
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedExplanation.explanationType == '858890002'">
+                                                <!--date & time-->
+                                                <div class="col-md-12" ng-repeat="option in options">
+                                                    <input type="datetime" class="form-control" ng-model="option.name" ng-change="UpdateOptionRecordsForInputOfTypeText(option)" />
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedExplanation.explanationType == '858890003'">
+                                                <!--option set-->
+                                                <div class="custom-control custom-checkbox mt-2" ng-repeat="option in options">
+                                                    <input type="checkbox"
+                                                           id="{{ option.id }}"
+                                                           ng-model="option.selected"
+                                                           ng-change="UpdateOptionRecordsForInputOfTypeOptionSet(option)" />
+                                                    <label class="custom-control-label" for="{{ option.id }}">{{ option.name }}</label>
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item" ng-if="selectedExplanation.explanationType == '858890004'">
+                                                <!--text-->
+                                                <div class="col-md-12" ng-repeat="option in options">
+                                                    <input type="text" class="form-control" ng-model="option.name" ng-change="UpdateOptionRecordsForInputOfTypeText(option)" />
+                                                </div>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                                        ng-repeat="optionPhoto in optionPhotos">
+                                                        <img src="{{ optionPhoto.image }}" style="width: 70px; width: 70px;" alt="..." />
+                                                        <span class="font-weight-normal">{{ optionPhoto.name }}</span>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../Script/InspectionQA_Script.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+            var Xrm = window.parent.Xrm;
+            var height = Xrm.Page.ui.getViewPortHeight() - 15;
+            var width = Xrm.Page.ui.getViewPortWidth() - 35;
+            $(".dv").height(height);
+            $(".dv").width(width);
+        });
+    </script>
+</body>
+</html>

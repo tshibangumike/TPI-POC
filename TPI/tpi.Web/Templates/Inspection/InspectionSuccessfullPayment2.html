@@ -1,0 +1,108 @@
+﻿<div class="container p-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Transaction successful</h1>
+        <hr class="my-4">
+        <p ng-if="CurrentUser.BackOrderProductExists">
+            Your report is on backorder, and you will be notified by email when it is available to download.
+        </p>
+        <p class="lead">
+            <div ng-if="Details.paymentMethod == 'EFT'">
+                <label>Please make payment to:</label>
+            </div>
+            <div ng-if="Details.paymentMethod == 'Account'">
+                <label>This transaction has been placed on your account:</label>
+            </div>
+            <div class="card">
+                <div class="card-body" ng-if="Details.paymentMethod == 'EFT'">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Account Name</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ BankingDetails.AccountName }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Account Number</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ BankingDetails.AccountNumber }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Bank</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ BankingDetails.Bank }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Branch</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ BankingDetails.BranchName }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Branch Code</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ BankingDetails.BranchCode }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Payment Reference</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ Details.orderNumber }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Amount</label>
+                        </div>
+                        <div class="col-md-9">
+                            : ${{ Details.amount }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" ng-if="Details.paymentMethod == 'Account' || Details.paymentMethod == 'Voucher'">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Reference Number</label>
+                        </div>
+                        <div class="col-md-9">
+                            : {{ Details.orderNumber }}
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Amount</label>
+                        </div>
+                        <div class="col-md-9">
+                            : ${{ Details.amount }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <button type="button" class="btn btn-labeled btn-dark btn-lg" ng-click="Search()">
+                <span class="btn-label"><i class="fa fa-chevron-circle-left"></i></span>
+                Return Search
+            </button>
+
+        </p>
+    </div>
+</div>

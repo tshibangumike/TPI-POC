@@ -1,0 +1,149 @@
+﻿<form ng-submit="ProcessForm()" name="bookingForm">
+    <div class="container-fluid m-3">
+        <div class="d-flex flex-column">
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-12 pull-right">
+                        <h4 class="font-weight-bold pull-right">Make a Booking</h4>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-2" />
+            <div class="p-2" ng-if="UserCanCreateInspection">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <h6>Property Information</h6>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="inputEmail4">Unit Number</label>
+                                <input type="text" class="form-control" id="inputEmail4" ng-model="Inspection.UnitNumber">
+                            </div>
+                            <div class="form-group col-md-9">
+                                <label for="inputPassword4">Street Address</label>
+                                <input type="text" class="form-control" id="inputPassword4" ng-model="Inspection.StreetAddress">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress">Address Line 2</label>
+                            <input type="text" class="form-control" id="inputAddress" ng-model="Inspection.Address1">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputAddress2">Address Line 3</label>
+                            <input type="text" class="form-control" id="inputAddress2" ng-model="Inspection.Address2">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control" id="inputCity" ng-model="Inspection.City">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">State</label>
+                                <select id="inputState" class="form-control" ng-model="Inspection.State">
+                                    <option>New South Wales</option>
+                                    <option>Victoria</option>
+                                    <option>Queensland</option>
+                                    <option>Western Australia</option>
+                                    <option>South Australia</option>
+                                    <option>Tasmania</option>
+                                    <option>Australian Capital Territory</option>
+                                    <option>Northern Territory</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">Postal Code</label>
+                                <input type="text" class="form-control" id="inputZip" ng-model="Inspection.PostalCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-2" ng-if="!UserCanCreateInspection">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <h6>Property Information</h6>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12 p-3 mb-2">
+                        <label>Inspection Address</label>
+                        <input type="text" class="form-control" ng-model="CurrentUser.Inspection.Name" ng-disabled="true">
+                    </div>
+                </div>
+            </div>
+            <div class="p-2">
+                <div class="row p-3 mb-2 bg-dark text-white">
+                    <h6>Inspection Information</h6>
+                </div>
+                <div class="row p-3">
+                    <div class="col-md-12">
+                        <div class="row p-3 mb-2 bg-light text-dark">
+                            <div class="col-md-3">
+                                <label class="text-muted font-weight-bold">Product Description</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="text-muted font-weight-bold">Date</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="text-muted font-weight-bold">Time</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="text-muted font-weight-bold">Inspector</label>
+                            </div>
+                        </div>
+                        <div class="card" ng-repeat="InspectionDetail in InspectionDetails">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>Appointment for {{ InspectionDetail.Product.Name }}</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group mb-2 input-group date">
+                                            <input type="text" class="form-control input-date" ng-model="InspectionDetail.Appointment.SelectedDate" ng-required="true">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text"><span class="fa fa-calendar"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-control" ng-model="InspectionDetail.Appointment.SelectedTimeSlot" ng-required="true">
+                                            <option ng-disabled="true">...</option>
+                                            <option ng-repeat="Time in Times" value="{{ Time.StartValue }}">{{ Time.StartTime }} - {{ Time.EndTime }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-control" ng-model="InspectionDetail.Appointment.OwnerId" ng-required="true">
+                                            <option>...</option>
+                                            <option ng-repeat="systemUser in GetInspectorBySkills(InspectionDetail.Product.InspectorSkills)" value="{{ systemUser.Id }}">{{ systemUser.Fullname }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-2 ln" />
+            <div class="p-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-labeled btn-success btn-lg pull-right" ng-disabled="!bookingForm.$valid">
+                            <span class="btn-label"><i class="fa fa-floppy-o"></i></span>
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $(".input-date").datepicker({
+            format: "dd/mm/yyyy",
+            todayHighlight: true,
+            autoclose: true,
+            startDate: (new Date())
+        });
+    });
+</script>

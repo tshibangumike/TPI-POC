@@ -1,0 +1,70 @@
+﻿<form ng-submit="Authenticate()" name="loginForm">
+    <div class="container m-5 div-login mx-auto">
+        <div class="text-center mb-4">
+            <img class="mb-4 img-fluid" src="../../Images/icons/tpi4.svg" alt="" />
+        </div>
+        <div class="p-2">
+            <h1 class="text-center"><strong>Login</strong></h1>
+        </div>
+        <div class="offset-md-3 offset-sm-6 p-2">
+            <div class="row">
+                <div class="col-md-9 my-2">
+                    <label>Username:</label>
+                    <input type="text" class="form-control" ng-model="User.Username" ng-required="true" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9 my-2">
+                    <label>Password:</label>
+                    <input type="password" class="form-control" ng-model="User.Password" ng-keypress="checkIfEnterKeyWasPressed($event)" ng-required="true" />
+                </div>
+            </div>
+        </div>
+        <div class="p-2" ng-if="AuthenticationErrorMessage.length">
+            <div class="row">
+                <div class="offset-md-3 col-md-6 my-2">
+                    <div class="text-danger font-weight-bold">
+                        <i class="fa fa-exclamation-triangle red" aria-hidden="true"></i>
+                        {{ AuthenticationErrorMessage }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="offset-md-3 offset-sm-6 p-2">
+            <div class="row">
+                <div class="col-md-9 my-2">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-labeled btn-dark btn-lg" ng-disabled="!loginForm.$valid">
+                            Login <span class="btn-label btn-label-right"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9 my-2">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-labeled btn-light btn-lg" ng-click="Register()">
+                            Register
+                            <span class="btn-label btn-label-right">
+                                <i class="fa fa-user-plus" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9 my-2">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-labeled btn-light btn-lg" ng-click="ResetPassword()">
+                            Reset Password
+                            <span class="btn-label btn-label-right">
+                                <i class="fa fa-unlock" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

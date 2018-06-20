@@ -1,0 +1,73 @@
+﻿
+
+<div class="container-fluid p-3">
+    <div class="row">
+        <div class="col-sm-12 col-md-10">
+            <div class="form-group">
+                <input type="search" class="form-control" ng-model="searchText" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2 col-md-2">
+            <div class="form-group">
+                <button type="button" class="btn btn-outline-dark btn-block" ng-click="SearchForAddress(searchText)">Search</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="list-unstyled">
+            <li class="p-3" ng-repeat="Inspection in Inspections">
+                <div class="row">
+                    <div class="col-sm-8 col-md-10">
+                        {{ Inspection.InspectionAddress }}
+                    </div>
+                    <div class="col-sm-3 col-md-2">
+                        <button class="btn btn-dark" ng-click="NavigateTo(Inspection.Id)">
+                            Show Reports
+                        </button>
+                    </div>
+                    <div ng-if="!$last"></div>
+                </div>
+            </li>
+        </ul>
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+<!--<div layout="row" layout-xs="column" layout-padding ng-cloak>
+    <div flex="10">
+    </div>
+    <div flex="70">
+
+    </div>
+    <div flex>
+        
+    </div>
+</div>
+<hr/>
+<div layout="row" layout-xs="column" layout-padding ng-cloak>
+    <div flex="10">
+    </div>
+    <div flex="70">
+        <md-list>
+            <md-subheader class="md-no-sticky">Result(s)</md-subheader>
+            
+            <md-list-item ng-repeat="Inspection in Inspections" ng-click="" class="noright">
+                <p>{{ Inspection.InspectionAddress }}</p>
+                <md-button class="md-raised md-primary" ng-click="GetInspectionDetail(Inspection.Id)">Show reports</md-button>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+
+        </md-list>
+    </div>
+    <div flex>
+        
+    </div>
+</div>-->

@@ -1,0 +1,141 @@
+﻿<div class="container-smooth">
+    <div class="row my-4">
+        <div class="col-md-12">
+            <h4 class="font-weight-bold">Property Search</h4>
+            <hr>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col-md-12">
+            <div class="input-group input-group-lg mb-3">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter a location"
+                       aria-label="Enter a location"
+                       aria-describedby="basic-addon2"
+                       ng-keypress="checkIfEnterKeyWasPressed($event, SearchText)"
+                       ng-model="SearchText"
+                       ng-autocomplete
+                       options="Option"
+                       details="Detail" />
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" 
+                            ng-class="{'btn-outline-success': Detail.address_components.length > 0 && SearchText.length > 0}" 
+                            type="button" 
+                            ng-click="SearchForAddress(SearchText)">Search</button>
+                </div>
+            </div>
+            <input id="addressComponents" type="hidden" value="{{ Detail.address_components }}" ng-model="Detail.address_components" ng-change="lelo" />
+        </div>
+    </div>
+    <div class="row" ng-if="SearchHasBeenInitiated">
+        <div class="col-md-12">
+            <h4 class="text-muted">Search Results</h4>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row bg-light">
+                        <div class="col-md-10 border-right">
+                        </div>
+                        <div class="col-md-2 p-2">
+                            <button class="btn btn-labeled btn-info btn-lg btn-block m-1" type="button" ng-click="NewSearch(SearchText)">
+                                New
+                                <span class="btn-label btn-label-right float-right">
+                                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" ng-repeat="Inspection in Inspections">
+                <div class="card-body">
+                    <div class="row bg-light">
+                        <div class="col-md-4 border-right border-bottom">
+                            <span class="font-weight-light text-muted text-small">FULL ADDRESS</span>
+                            <br />
+                            <p class="text-gray">{{ Inspection.InspectionAddress }}</p>
+                        </div>
+                        <div class="col-md-2 border-right border-bottom">
+                            <small class="font-weight-light text-muted text-small">UNIT NUMBER</small>
+                            <br />
+                            <p>{{ Inspection.UnitNumber }}</p>
+                        </div>
+                        <div class="col-md-2 border-right border-bottom">
+                            <small class="font-weight-light text-muted text-small">STREET NUMBER</small>
+                            <br />
+                            <p>{{ Inspection.StreetNumber }}</p>
+                        </div>
+                        <div class="col-md-2 border-right border-bottom">
+                            <small class="font-weight-light text-muted text-small">STREET ADDRESS</small>
+                            <br />
+                            <p>{{ Inspection.StreetAddress }}</p>
+                        </div>
+                        <div class="col-md-2 border-bottom">
+                            <small class="font-weight-light text-muted text-small">SUB LOCALITY</small>
+                            <br />
+                            <p>{{ Inspection.SubLocality }}</p>
+                        </div>
+                    </div>
+                    <div class="row bg-light">
+                        <div class="col-md-2 border-right">
+                            <small class="font-weight-light text-muted">SUBURB</small>
+                            <br />
+                            <p>{{ Inspection.Suburb }}</p>
+                        </div>
+                        <div class="col-md-2 border-right">
+                            <small class="font-weight-light text-muted">CITY</small>
+                            <br />
+                            <p>{{ Inspection.City }}</p>
+                        </div>
+                        <div class="col-md-2 border-right">
+                            <small class="font-weight-light text-muted">STATE</small>
+                            <br />
+                            <p>{{ Inspection.State }}</p>
+                        </div>
+                        <div class="col-md-2 border-right">
+                            <small class="font-weight-light text-muted">COUNTRY</small>
+                            <br />
+                            <p>{{ Inspection.Country }}</p>
+                        </div>
+                        <div class="col-md-2 border-right">
+                            <small class="font-weight-light text-muted">POSTAL CODE</small>
+                            <br />
+                            <p>{{ Inspection.PostalCode }}</p>
+                        </div>
+                        <div class="col-md-2 p-2">
+                            <button type="button" class="btn btn-labeled btn-dark btn-lg btn-block" ng-click="NavigateTo(Inspection)">
+                                View
+                                <span class="btn-label btn-label-right float-right">
+                                    <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>
+
+<script>
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-center",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "3000",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>

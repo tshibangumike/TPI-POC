@@ -1,0 +1,45 @@
+<fetch top="50">
+  <entity name="blu_questionsetup">
+    <attribute name="createdonbehalfbyyominame" />
+    <attribute name="modifiedonbehalfby" />
+    <attribute name="statecode" />
+    <attribute name="blu_answerdatatypename" />
+    <attribute name="blu_tooltip" />
+    <attribute name="statecodename" />
+    <attribute name="createdonbehalfby" />
+    <attribute name="blu_name" />
+    <attribute name="importsequencenumber" />
+    <attribute name="organizationidname" />
+    <attribute name="modifiedbyyominame" />
+    <attribute name="blu_category" />
+    <attribute name="utcconversiontimezonecode" />
+    <attribute name="createdbyyominame" />
+    <attribute name="modifiedbyname" />
+    <attribute name="versionnumber" />
+    <attribute name="modifiedby" />
+    <attribute name="createdby" />
+    <attribute name="timezoneruleversionnumber" />
+    <attribute name="statuscodename" />
+    <attribute name="blu_number" />
+    <attribute name="blu_type" />
+    <attribute name="modifiedon" />
+    <attribute name="blu_answerdatatype" />
+    <attribute name="modifiedonbehalfbyyominame" />
+    <attribute name="statuscode" />
+    <attribute name="createdbyname" />
+    <attribute name="createdon" />
+    <attribute name="organizationid" />
+    <attribute name="createdonbehalfbyname" />
+    <attribute name="blu_typename" />
+    <attribute name="modifiedonbehalfbyname" />
+    <attribute name="blu_categoryname" />
+    <attribute name="blu_questionsetupid" />
+    <attribute name="overriddencreatedon" />
+    <order attribute="blu_number" />
+    <link-entity name="blu_parentcategorysetup_questionsetup" from="blu_questionsetupidone" to="blu_questionsetupid" link-type="inner" alias="parentcategory" intersect="true">
+      <filter>
+        <condition attribute="blu_questionsetupidone" operator="eq" value="31df0fad-fd16-e811-a84c-000d3ad1181d" />
+      </filter>
+    </link-entity>
+  </entity>
+</fetch>
